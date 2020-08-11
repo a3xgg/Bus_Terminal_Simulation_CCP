@@ -16,7 +16,7 @@ public class TicketCounter{
             System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TC)" + " Customer " + customer.getName() + " reached " + this.counterName);
             customer.getTicket = true;
             try{
-                Thread.sleep(0);
+                Thread.sleep(1500);
             }catch(Exception e){}
             System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TC) " + this.counterName + " sold Ticket to Customer: " + customer.getName());
             lock.unlock();
