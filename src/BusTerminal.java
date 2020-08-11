@@ -2,7 +2,7 @@ public class BusTerminal extends Thread{
 
     int terminalCustomerLimit;
 
-    public BusTerminal(){
+    public BusTerminal(Entrance westEntrance, Entrance eastEntrance){
         this.terminalCustomerLimit = 100;
     }
 
