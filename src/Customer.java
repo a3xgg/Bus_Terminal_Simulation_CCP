@@ -3,22 +3,24 @@ public class Customer extends Thread{
 
     TicketCounter ticket;
     TicketMachine ticketMachine;
-
+    Entrance entryLocation;
+    WaitingArea waitingArea;
     boolean getTicket = false;
 
-    public Customer(String customerName, TicketCounter ticket){
+    public Customer(String customerName, TicketCounter ticket, WaitingArea waitingArea){
         setName(customerName);
         this.ticket = ticket;
+        this.waitingArea = waitingArea;
     }
 
-    public Customer(String customerName, TicketMachine ticketMachine){
-        setName(customerName);
+    public Customer(String customerName, TicketMachine ticketMachine, TicketCounter ticket, WaitingArea waitingArea){
+        this(customerName, ticket, waitingArea);
         this.ticketMachine = ticketMachine;
     }
 
-    public Customer(String customerName, TicketMachine ticketMachine, TicketCounter ticket){
-        this(customerName, ticketMachine);
-        this.ticket = ticket;
+    public Customer(String customerName, Entrance entry){
+        setName(customerName);
+        this.entryLocation = entry;
     }
 
     @Override

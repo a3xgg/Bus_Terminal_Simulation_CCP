@@ -16,10 +16,15 @@ public class TicketCounter{
             System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TC)" + " Customer " + customer.getName() + " reached " + this.counterName);
             customer.getTicket = true;
             try{
-                Thread.sleep(1500);
+                Thread.sleep(0);
             }catch(Exception e){}
             System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TC) " + this.counterName + " sold Ticket to Customer: " + customer.getName());
             lock.unlock();
+            if(customer.waitingArea.isFullCapacity != true){
+                customer.waitingArea.enterWaitingArea(customer);
+            } else {
+                System.out.println("(FOYER) Customer " + customer.getName() + " is forced to stand at Foyer");
+            }
         }
     }
 }

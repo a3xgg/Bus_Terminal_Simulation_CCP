@@ -2,8 +2,12 @@ public class BusTerminal extends Thread{
 
     int terminalCustomerLimit;
 
-    public BusTerminal(Entrance westEntrance, Entrance eastEntrance){
-        this.terminalCustomerLimit = 100;
+    Entrance westEntrance, eastEntrance;
+    SecurityGuard westGuard, eastGuard;
+
+    public BusTerminal(){
+        this.westEntrance = new Entrance("West Entrance", this.westGuard = new SecurityGuard("West Guard"));
+        this.eastEntrance = new Entrance("East Entrance", this.eastGuard = new SecurityGuard("East Guard"));
     }
 
     @Override

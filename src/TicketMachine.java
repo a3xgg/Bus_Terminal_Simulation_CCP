@@ -12,6 +12,28 @@ public class TicketMachine extends TicketCounter{
 
     @Override
     public void sellTicket(Customer customer){
+<<<<<<< HEAD
         
+=======
+        if(!brokeDown && servedCounter < 5){   // set the breakdown counter be random
+            if(lock.tryLock()){
+                System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TM)" + " Customer " + customer.getName() + " reached " + this.counterName);
+                try{
+                    Thread.sleep(0);
+                }catch(Exception e){}
+                servedCounter += 1;
+                System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TM) " + this.counterName + " sold Ticket to Customer: " + customer.getName());
+                customer.getTicket = true;
+
+                brokeDown = servedCounter == 5 ? true: false;
+                lock.unlock();
+            }
+        } else {
+                System.out.println("Customer " + customer.getName() + " has left to " + customer.ticket.counterName + " - Reason: " + counterName + " broke down!");
+                customer.ticketMachine = null;
+                customer.ticket.sellTicket(customer);
+
+        }
+>>>>>>> 5bbd0fdc40429d289e0b91901128ccc903bd9a90
     }
 }
