@@ -16,18 +16,20 @@ public class TicketMachine extends TicketCounter{
             if(lock.tryLock()){
                 System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TM)" + " Customer " + customer.getName() + " reached " + this.counterName);
                 try{
-                    Thread.sleep(new Random().nextInt(10) * 1000);
+                    Thread.sleep(0);
                 }catch(Exception e){}
+                servedCounter += 1;
                 System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TM) " + this.counterName + " sold Ticket to Customer: " + customer.getName());
                 customer.getTicket = true;
-                servedCounter += 1;
+
+                brokeDown = servedCounter == 5 ? true: false;
                 lock.unlock();
             }
         } else {
-            brokeDown = true;
-            System.out.println("Customer " + customer.getName() + " has left to " + customer.ticket.counterName + " - Reason: " + counterName + " broke down!");
-            customer.ticketMachine = null;
-            customer.ticket.sellTicket(customer);
+                System.out.println("Customer " + customer.getName() + " has left to " + customer.ticket.counterName + " - Reason: " + counterName + " broke down!");
+                customer.ticketMachine = null;
+                customer.ticket.sellTicket(customer);
+
         }
     }
 }
