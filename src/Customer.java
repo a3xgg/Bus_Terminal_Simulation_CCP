@@ -28,7 +28,7 @@ public class Customer extends Thread{
                if (this.ticket != null && this.ticketMachine == null) {
                    ticket.sellTicket(this);
                } else if(this.ticketMachine != null && this.ticket != null){
-                   ticketMachine.sellTicket(this);
+
                }
            }
         }
