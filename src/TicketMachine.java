@@ -3,7 +3,7 @@ import java.util.Random;
 /* Ticket Machine that extends from TicketCounter */
 public class TicketMachine extends TicketCounter{
 
-    int servedCounter = 0; // this counter is used to simulate ticket machine breakdown when it reaches a certain number
+    int servedCounter = 1; // this counter is used to simulate ticket machine breakdown when it reaches a certain number
     boolean brokeDown = false;
 
     public TicketMachine(String machineName){
@@ -12,27 +12,21 @@ public class TicketMachine extends TicketCounter{
 
     @Override
     public void sellTicket(Customer customer){
-        if(servedCounter < 15){
+        if(!brokeDown && servedCounter < 10){
             if(lock.tryLock()){
-                servedCounter += 1;
+                System.out.println("#" + servedCounter);
                 System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TM)" + " Customer " + customer.getName() + " reached " + this.counterName);
-                customer.getTicket = true;
                 try{
-                    Thread.sleep(new Random().nextInt(3) * 2500);
+                    Thread.sleep(0);
                 }catch(Exception e){}
                 System.out.println("("+java.time.LocalTime.now().withNano(0) + " - TM) " + this.counterName + " sold Ticket to Customer: " + customer.getName());
+                customer.getTicket = true;
+                servedCounter += 1;
                 lock.unlock();
             }
         } else {
-            brokeDown = true;
-            System.out.println("(WARNING) " + this.counterName + " broke down awaiting repair....");
-            try{
-                Thread.sleep(5000);
-                servedCounter = 0;
-            }catch (Exception e){}
-            finally{
-                System.out.println("(FIXED) " + this.counterName + " is ready to serve customers!");
-            }
+            customer.ticketMachine = null;
+            customer.ticket.sellTicket(customer);
         }
     }
 }
