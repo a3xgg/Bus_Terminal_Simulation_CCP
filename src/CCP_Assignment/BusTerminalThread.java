@@ -14,16 +14,17 @@ public class BusTerminalThread extends Thread{
         BusTerminal busTerminal = new BusTerminal("APBT");
         TicketCounter counterOne = new TicketCounter("Counter 1");
         TicketCounter counterTwo = new TicketCounter("Counter 2");
+        WaitingArea waitingAreaOne = new WaitingArea("Waiting Area 1");
 
-        Customer[] customers = new Customer[10];
+        Customer[] customers = new Customer[20];
         for(int i = 0; i < customers.length; i++){
-            int randomCounterGenerator = new Random().nextInt(2);
-            switch (randomCounterGenerator){
+            int randomGenerator = new Random().nextInt(2);
+            switch (randomGenerator){
                 case 0:
-                    customers[i] = new Customer(Integer.toString(i), busTerminal, counterOne);
+                    customers[i] = new Customer(Integer.toString(i), busTerminal,waitingAreaOne ,counterOne);
                     break;
                 case 1:
-                    customers[i] = new Customer(Integer.toString(i), busTerminal,counterTwo);
+                    customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaOne,counterTwo);
                     break;
             }
         }
