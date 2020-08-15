@@ -22,5 +22,8 @@ public class TicketCounter{
         } catch(Exception e){}
         customer.ticket = true;
         System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getCounterName() + ")\t" + getCounterName() + " has sold a ticket to Customer " + customer.getName());
+        if(customer.ticket == true){
+            customer.waitingArea.enterWaitingArea(customer);
+        }
     }
 }
