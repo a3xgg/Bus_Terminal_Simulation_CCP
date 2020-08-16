@@ -12,16 +12,18 @@ public class TicketCounter{
         return this.counterName;
     }
 
-    public synchronized void sellTicket(Customer customer){
-        try{
-            Thread.sleep((new Random().nextInt(4) + 1) * 1000);
-        } catch(Exception e){}
-        System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getCounterName() + ")\t" + "Customer " + customer.getName() + " has reached " + getCounterName());
-        try{
-            Thread.sleep(1500);
-        } catch(Exception e){}
-        customer.ticket = true;
-        System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getCounterName() + ")\t" + getCounterName() + " has sold a ticket to Customer " + customer.getName());
+    public void sellTicket(Customer customer){
+        synchronized (this){
+            try{
+                Thread.sleep((new Random().nextInt(4) + 1) * 1000);
+            } catch(Exception e){}
+            System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getCounterName() + ")\t" + "Customer " + customer.getName() + " has reached " + getCounterName());
+            try{
+                Thread.sleep(1500);
+            } catch(Exception e){}
+            customer.ticket = true;
+            System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getCounterName() + ")\t" + getCounterName() + " has sold a ticket to Customer " + customer.getName());
+        }
         if(customer.ticket == true){
             customer.waitingArea.enterWaitingArea(customer);
         }
