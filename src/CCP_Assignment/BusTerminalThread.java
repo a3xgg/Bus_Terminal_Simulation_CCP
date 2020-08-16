@@ -38,7 +38,9 @@ public class BusTerminalThread extends Thread{
                     break;
             }
         }
+        bus.start();
         waitingAreaOne.start();
+//        waitingAreaTwo.start();
         for(int i = 0; i < customers.length; i++){
             customers[i].start();
         }
