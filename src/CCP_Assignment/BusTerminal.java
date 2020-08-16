@@ -11,7 +11,7 @@ public class BusTerminal {
 
     public BusTerminal(String busTerminalName){
         this.busTerminalName = busTerminalName;
-        this.maxCapacity = 20;
+        this.maxCapacity = 50;
     }
 
     public String getBusEntrance(){
@@ -29,15 +29,15 @@ public class BusTerminal {
                 try{
                     Thread.sleep((new Random().nextInt(4) + 1) * 1000);
                 } catch(Exception e){}
-                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - " + getBusEntrance() + ")\t" + "Customer " + customer.getName() + " reached the terminal entrance");
+                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " reached the terminal entrance");
                 try{
                     Thread.sleep(1000);
                 } catch(Exception e){}
                 customer.entered = true;
                 customer.busTerminal.increaseCustomerCounter();
-                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - " + getBusEntrance() + ")\t" + "Customer " + customer.getName() + " has entered the bus terminal" + "(Current Capacity: " + customerCounter+")");
+                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " has entered the bus terminal");
             } else {
-                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - " + getBusEntrance() + ")\t" + "Customer " + customer.getName() + " is currently waiting at the entrance");
+                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " is currently waiting at the entrance");
                 try{
                     Thread.sleep(5000);
                 } catch(Exception e){}
