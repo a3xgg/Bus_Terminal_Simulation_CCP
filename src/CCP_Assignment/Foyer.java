@@ -13,12 +13,12 @@ public class Foyer extends Thread{
                 System.out.println("Customer " + customer.getName() + " is waiting at the Foyer");
             } catch(Exception e){}
         }
-//        synchronized (customer.waitingArea){
-//            try{
-//                customer.waitingArea.wait();
-//            } catch(Exception e){}
-//        }
-//        customer.waitingArea.enterWaitingArea(customer);
+        synchronized (customer.waitingArea){
+            try{
+                customer.waitingArea.wait();
+            } catch(Exception e){}
+            customer.waitingArea.enterWaitingArea(customer);
+        }
     }
 
     @Override
