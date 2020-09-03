@@ -52,7 +52,7 @@ public class BusTerminal {
             }
         }
         if(customer.entered && customer.ticket == false){
-            if(customer.ticketMachine != null){
+            if(customer.ticketMachine != null && !customer.ticketMachine.brokeDown){
                 customer.ticketMachine.sellTicket(customer);
             } else {
                 customer.ticketCounter.sellTicket(customer);
