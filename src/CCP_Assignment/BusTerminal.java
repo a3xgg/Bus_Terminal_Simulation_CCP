@@ -11,7 +11,7 @@ public class BusTerminal {
 
     public BusTerminal(String busTerminalName){
         this.busTerminalName = busTerminalName;
-        this.maxCapacity = 50;
+        this.maxCapacity = 100;
     }
 
     public String getBusEntrance(){
@@ -24,27 +24,39 @@ public class BusTerminal {
 
     public void enterBusTerminal(Customer customer){
         synchronized (this){
-            max = (customerCounter == maxCapacity) ? true : false;
-            if(!max){
-                try{
+
+            if(!max) {
+                try {
                     Thread.sleep((new Random().nextInt(4) + 1) * 1000);
-                } catch(Exception e){}
+                } catch (Exception e) {
+                }
                 System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " reached the terminal entrance");
-                try{
+                try {
                     Thread.sleep(1000);
-                } catch(Exception e){}
+                } catch (Exception e) {
+                }
                 customer.entered = true;
-                customer.busTerminal.increaseCustomerCounter();
-                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " has entered the bus terminal");
+                increaseCustomerCounter();
+                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " has entered the bus terminal" + " (Bus Terminal Cap: " + this.customerCounter + ")");
+                max = (customerCounter == maxCapacity) ? true : false;
             } else {
-                System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - Terminal" + ")\t" + "Customer " + customer.getName() + " is currently waiting at the entrance");
-                try{
-                    Thread.sleep(5000);
-                } catch(Exception e){}
+                if(customerCounter < (int)(0.7*maxCapacity)){
+                    max = false;
+                    customer.busTerminal.enterBusTerminal(customer);
+                } else {
+                    try{
+                        Thread.sleep(5000);
+                    }catch(Exception e){}
+                    System.out.println("CUSTOMER " + customer.getName() + " IS WAITING AT ENTRANCE");
+                }
             }
         }
         if(customer.entered && customer.ticket == false){
-            customer.ticketCounter.sellTicket(customer);
+            if(customer.ticketMachine != null){
+                customer.ticketMachine.sellTicket(customer);
+            } else {
+                customer.ticketCounter.sellTicket(customer);
+            }
         }
     }
 }

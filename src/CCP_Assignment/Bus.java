@@ -16,11 +16,20 @@ public class Bus extends Thread{
 
     public void enterBus(Customer customer){
         synchronized (this){
-            try{
-                Thread.sleep(1500);
-            } catch(Exception e){}
-            System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getName() + ")\t" + " Customer " + customer.getName() + " has entered " + getName() + " (Current Bus Capacity: " + (busCounter + 1)+")");
-            incrementBusCounter();
+            if(!isFull){
+                try{
+                    Thread.sleep(1500);
+                } catch(Exception e){}
+                System.out.println("("+java.time.LocalTime.now().withNano(0) + " - " + getName() + ")\t" + " Customer " + customer.getName() + " has entered " + getName() + " (Current Bus Capacity: " + (busCounter + 1)+")");
+                incrementBusCounter();
+                customer.enteredBus = true;
+                customer.busTerminal.customerCounter -= 1;
+                customer.waitingArea.waitingAreaCustomerCounter -= 1;
+                System.out.println("BusTerminal Count: " + customer.busTerminal.customerCounter + "\t" + "WaitingArea Count: " + customer.waitingArea.waitingAreaCustomerCounter);
+                isFull = busCounter == maxCapacity ? true : false;
+            } else {
+                customer.waitingArea.enterWaitingArea(customer);
+            }
         }
     }
 
@@ -31,41 +40,24 @@ public class Bus extends Thread{
     @Override
     public void run(){
         while(true){
-//            try{
-//                Thread.sleep(50000);
-//            } catch(Exception e){}
-//            System.out.println(getName() + " has arrived! Onboard the Bus!");
-//            arrived = true;
-//            isFull = busCounter == maxCapacity ? true : false;
-//            while(arrived && !isFull){
-//                synchronized (this){
-//                    this.notify();
-//                }
-//            }
-//
-//            try{
-//                Thread.sleep(1000);
-//            } catch(Exception e){}
-//            System.out.println(getName() + " has left");
-//            arrived = false;
-//            busCounter = 0;
             try{
-                Thread.sleep(15000);
-                System.out.println(getName()  + " has arrived!");
-                arrived = true;
-                if(arrived){
-                    while(!isFull){
-                        isFull = busCounter == maxCapacity ? true : false;
-                        synchronized (this){
-                            this.notify();
-                        }
-                    }
-                }
-                Thread.sleep(1000);
-                System.out.println(getName()+" has left");
-                busCounter = 0;
-                isFull = arrived = false;
+                //Thread.sleep(150000);
+                Thread.sleep((new Random().nextInt(5) + 15) * 1000);
             } catch(Exception e){}
+            System.out.println(getName()  + " has arrived!");
+            arrived = true;
+            while(arrived){
+                synchronized (this){
+                    this.notify();
+                }
+                if(busCounter == maxCapacity){
+                    break;
+                }
+            }
+            //try{Thread.sleep(1000);} catch(Exception e){}
+            System.out.println(getName()+" has left");
+            busCounter = 0;
+            isFull = arrived = false;
         }
     }
 }

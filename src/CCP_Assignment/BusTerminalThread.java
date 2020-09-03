@@ -17,6 +17,10 @@ public class BusTerminalThread extends Thread{
 
         TicketCounter counterOne = new TicketCounter("Counter 1");
         TicketCounter counterTwo = new TicketCounter("Counter 2");
+        TicketMachine ticketMachine = new TicketMachine("Ticket Machine");
+
+        TicketInspector ticketInspector = new TicketInspector("Ticket Inspector");
+        TicketScanner ticketScanner = new TicketScanner("Ticket Scanner");
 
         WaitingArea waitingAreaOne = new WaitingArea("Waiting Area 1");
         WaitingArea waitingAreaTwo = new WaitingArea("Waiting Area 2");
@@ -26,21 +30,46 @@ public class BusTerminalThread extends Thread{
         Bus bus2 = new Bus("APBT Bus 2");
         Bus bus3 = new Bus("APBT Bus 3");
 
-        Customer[] customers = new Customer[15];
+        Customer[] customers = new Customer[150];
         for(int i = 0; i < customers.length; i++){
-            int randomGenerator = new Random().nextInt(2);
+            int randomGenerator = new Random().nextInt(4);
             switch (randomGenerator){
                 case 0:
-                    customers[i] = new Customer(Integer.toString(i), busTerminal,waitingAreaOne , bus, foyer,counterOne);
+                    customers[i] = new Customer(Integer.toString(i), busTerminal,waitingAreaOne , bus, foyer,counterOne,ticketInspector, ticketScanner);
                     break;
                 case 1:
-                    customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaOne, bus, foyer,counterTwo);
+                    customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaTwo, bus2, foyer,counterTwo,ticketInspector, ticketScanner);
+                    break;
+                case 2:
+                    int nextRand = new Random().nextInt(2);
+                    switch (nextRand){
+                        case 0:
+                            customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaOne, bus, foyer,counterOne, ticketMachine, ticketInspector, ticketScanner);
+                            break;
+                        case 1:
+                            customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaTwo, bus2, foyer,counterTwo, ticketMachine, ticketInspector, ticketScanner);
+                            break;
+                    }
+                    break;
+                case 3:
+                    int rand = new Random().nextInt(2);
+                    switch (rand){
+                        case 0:
+                            customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaThree, bus3, foyer,counterOne, ticketMachine, ticketInspector, ticketScanner);
+                            break;
+                        case 1:
+                            customers[i] = new Customer(Integer.toString(i), busTerminal, waitingAreaThree, bus3, foyer,counterTwo, ticketMachine, ticketInspector, ticketScanner);
+                            break;
+                    }
                     break;
             }
         }
         bus.start();
+        bus2.start();
+        bus3.start();
         waitingAreaOne.start();
-//        waitingAreaTwo.start();
+        waitingAreaTwo.start();
+        waitingAreaThree.start();
         for(int i = 0; i < customers.length; i++){
             customers[i].start();
         }

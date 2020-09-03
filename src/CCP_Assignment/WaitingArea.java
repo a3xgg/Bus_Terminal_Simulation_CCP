@@ -13,36 +13,30 @@ public class WaitingArea extends Thread{
         this.maxCapacity = 10;
     }
 
-    public synchronized int incrementCounter(){
-        return waitingAreaCustomerCounter += 1;
-    }
-
-    public void decrementCounter(){
-        synchronized (this){
-            waitingAreaCustomerCounter -= 1;
-        }
-    }
-
     public void enterWaitingArea(Customer customer){
-        isFull = waitingAreaCustomerCounter >= maxCapacity ? true : false;
         synchronized (this){
+            isFull = (waitingAreaCustomerCounter == maxCapacity) ? true : false;
             if(!isFull){
                 try{
                     Thread.sleep((new Random().nextInt(2) + 1) * 1000);
                     System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - " + getName() + ")\t" + "Customer " + customer.getName() + " has REACHED " + getName());
                     Thread.sleep(1000);
-                    incrementCounter();
+                    waitingAreaCustomerCounter += 1;
+                    customer.enteredWaitingArea = true;
                     System.out.println("(" + java.time.LocalTime.now().withNano(0) + " - " + getName() + ")\t" + "Customer " + customer.getName() + " has ENTERED " + getName() + "\t(Current Capacity: " + waitingAreaCustomerCounter + ")");
                 } catch(Exception e){}
+
             } else{
                 customer.foyer.enterFoyer(customer);
             }
         }
-        synchronized (customer.bus){
-            try{
-                customer.bus.wait();
-            } catch(Exception e){}
-            customer.bus.enterBus(customer);
+        if(!customer.enteredBus){
+            synchronized (customer.bus){
+                try{
+                    customer.bus.wait();
+                } catch(Exception e){}
+                customer.bus.enterBus(customer);
+            }
         }
     }
 
