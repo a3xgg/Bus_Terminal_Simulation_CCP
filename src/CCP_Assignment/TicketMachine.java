@@ -11,8 +11,7 @@ public class TicketMachine extends TicketCounter{
     public TicketMachine(String counterName) {
         super(counterName);
         this.brokeDown = false;
-        //brokeDownRandomizer = (new Random().nextInt(10)+1) * 5; // max breakdown @ 50, min breakdown @ 5
-        brokeDownRandomizer = 1;
+        brokeDownRandomizer = (new Random().nextInt(10)+1) * 5; // max breakdown @ 50, min breakdown @ 5
     }
 
     @Override
@@ -23,7 +22,6 @@ public class TicketMachine extends TicketCounter{
                 System.out.println("("+java.time.LocalTime.now().withNano(0)+")" + " Customer "+ customer.getName() + " is headed towards " + customer.ticketCounter.getCounterName());
                 customer.ticketCounter.sellTicket(customer);
             } else {
-//                super.sellTicket(customer);
                 try{
                         Thread.sleep(new Random().nextInt(3) * 1000);
                     } catch(Exception e){}
