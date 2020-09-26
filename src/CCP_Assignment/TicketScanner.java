@@ -9,7 +9,7 @@ public class TicketScanner extends TicketInspector{
     }
 
     @Override
-    public void scanTicket(Customer customer){
+    public void scanTicket(Customer customer){  // Overrides the scanTicket function from TicketInspector class
         synchronized (this){
             try{
                 Thread.sleep((new Random().nextInt(2)) * 1000);

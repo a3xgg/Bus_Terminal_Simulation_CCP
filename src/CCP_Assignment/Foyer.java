@@ -4,9 +4,10 @@ import java.util.Random;
 
 public class Foyer{
 
-    int foyerCount;
+    int foyerCount;     // number of people in the foyer
     String foyerName;
 
+    // CONSTRUCTOR
     public Foyer (String foyerName){
         this.foyerName = foyerName;
     }
@@ -22,10 +23,10 @@ public class Foyer{
         if(!customer.enteredWaitingArea){
             synchronized (customer.waitingArea){
                 try{
-                    customer.waitingArea.wait();
+                    customer.waitingArea.wait();        // waits for the notification from the waiting area on whether the waiting area is full or not
                 } catch(Exception e){}
                 foyerCount -= 1;
-                customer.waitingArea.enterWaitingArea(customer);
+                customer.waitingArea.enterWaitingArea(customer);    // enters the waiting area after waiting area max cap is decreased
             }
         }
     }

@@ -3,6 +3,11 @@ package CCP_Assignment;
 import java.util.Random;
 
 public class BusTerminalThread extends Thread{
+
+    /*
+        THIS CLASS IS TO ACT AS A "MAIN" CLASS TO START ALL THE THREADS
+    */
+
     public BusTerminalThread(String busTerminal){
         setName(busTerminal);
     }

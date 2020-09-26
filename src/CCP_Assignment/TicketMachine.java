@@ -4,10 +4,11 @@ import java.util.Random;
 
 public class TicketMachine extends TicketCounter{
 
-    boolean brokeDown;
-    int servedCounter = 0;
-    int brokeDownRandomizer;
+    boolean brokeDown;      // check whether the ticket machine has broke down
+    int servedCounter = 0;  // the number of times the ticket machine has served a customer
+    int brokeDownRandomizer;// variable to initialize a random value
 
+    // CONSTRUCTOR
     public TicketMachine(String counterName) {
         super(counterName);
         this.brokeDown = false;

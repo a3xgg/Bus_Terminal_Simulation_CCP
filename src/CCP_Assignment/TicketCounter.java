@@ -5,10 +5,11 @@ import java.util.Random;
 public class TicketCounter{
     private String counterName;
 
-    boolean onBreak = false;
-    int servedCounter = 0;
-    int counterToBreak;
+    boolean onBreak = false;    // Variable to check whether the ticket counter is on break
+    int servedCounter = 0;      // the number of customer that has been served by the ticket counter
+    int counterToBreak;         // number of customer to serve before being able to go on a break
 
+    // CONSTRUCTOR
     public TicketCounter(String counterName){
         this.counterName = counterName;
         this.counterToBreak = new Random().nextInt(10)+1;
@@ -18,7 +19,7 @@ public class TicketCounter{
         return this.counterName;
     }
 
-    public void sellTicket(Customer customer){
+    public void sellTicket(Customer customer){  // Allows the ticket counter to sell ticket
         synchronized (this){
             try{
                 Thread.sleep(new Random().nextInt(2) * 1000);

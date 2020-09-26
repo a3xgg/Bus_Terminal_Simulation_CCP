@@ -14,7 +14,7 @@ public class TicketInspector{
         return this.ticketInspectorName;
     }
 
-    public void scanTicket(Customer customer){
+    public void scanTicket(Customer customer){      // Function allows the customer to scan their ticket with the ticket inspector
         synchronized (this){
             try{
                 Thread.sleep((new Random().nextInt(3)+1) * 1000);
@@ -26,7 +26,7 @@ public class TicketInspector{
             customer.scanTicket2 = true;
             System.out.println("("+java.time.LocalTime.now().withNano(0)+ " - " + getTicketInspectorName() + ") " + getTicketInspectorName() + " has verified Customer " + customer.getName() + "'s ticket"  );
         }
-        if(customer.scanTicket1 && customer.scanTicket2){
+        if(customer.scanTicket1 && customer.scanTicket2){       // requires that ticket is checked by both the scanner and inspector
             customer.waitingArea.enterWaitingArea(customer);
         } else {
             if (customer.scanTicket1 == false){
